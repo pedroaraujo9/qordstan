@@ -61,7 +61,8 @@ gen_data_example = function() {
 #' @examples
 #' data = gen_data_example()
 #' fit = qord_fit(data$x, data$y, p = 0.5)
-qord_fit = function(x, y, p, beta_scale = 1, delta_scale = 0.25, ...) {
+qord_fit = function(x, y, p, beta_scale = 1, delta_scale = 0.25,
+                    pars = c("beta", "gamma"), ...) {
   #stan model data
   standata = list(
     x = x,
@@ -69,8 +70,8 @@ qord_fit = function(x, y, p, beta_scale = 1, delta_scale = 0.25, ...) {
     p = p,
     J = length(unique(y)),
     k = ncol(x), n = nrow(x),
-    sigma_beta = beta_scale,
-    sigma_delta = delta_scale
+    beta_scale = beta_scale,
+    delta_scale = delta_scale
   )
 
   model_fit = rstan::sampling(stanmodels$model, data = standata, ...)

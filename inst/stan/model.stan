@@ -75,28 +75,28 @@ data{
   real<lower=0, upper = 1> p; //quantile
   vector<lower=1, upper = J>[n] y; // response variavle
   matrix[n, k] x; // covariates
-  real sigma_beta;
-  real sigma_delta;
+  real beta_scale;
+  real delta_scale;
 }
 
 
 parameters {
-  vector[k] betas; // model coefs
-  vector[J-2] deltas; // deltas
+  vector[k] beta; // model coefs
+  vector[J-2] delta; // deltas
 }
-// gamma as a function of deltas
 transformed parameters {
-  vector[J-2] gammas = cumulative_sum(exp(deltas));
+  // gamma as a function of deltas
+  vector[J-2] gamma = cumulative_sum(exp(delta));
 }
 
 model {
   //likelihood
   vector[num_elements(y)] logv_obs;
-  logv_obs = logvero(y, x, betas, deltas, p, J);
+  logv_obs = logvero(y, x, beta, delta, p, J);
   target += sum(logv_obs);
   //priors
-  betas ~ normal(0, sigma_beta);
-  deltas ~ normal(0, sigma_delta);
+  beta ~ normal(0, beta_scale);
+  delta ~ normal(0, delta_scale);
 }
 
 
