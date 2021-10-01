@@ -69,34 +69,39 @@ functions{
 }
 // dados
 data{
-  int J; // number of categories in the response
+  int k; // number of categories in the response
   int n; // number of observations
-  int k; // number of covariates
-  real<lower=0, upper = 1> p; //quantile
-  vector<lower=1, upper = J>[n] y; // response variavle
-  matrix[n, k] x; // covariates
+  int p; // number of covariates
+  real<lower=0, upper = 1> q; //quantile
+  vector<lower=1, upper = k>[n] y; // response variavle
+  matrix[n, p] x; // covariates
   real beta_scale;
   real delta_scale;
 }
 
 
 parameters {
-  vector[k] beta; // model coefs
-  vector[J-2] delta; // deltas
+  vector[p] beta; // model coefs
+  vector[k-2] delta; // deltas
 }
 transformed parameters {
   // gamma as a function of deltas
-  vector[J-2] gamma = cumulative_sum(exp(delta));
+  vector[k-2] gamma = cumulative_sum(exp(delta));
 }
 
 model {
   //likelihood
   vector[num_elements(y)] logv_obs;
-  logv_obs = logvero(y, x, beta, delta, p, J);
+  logv_obs = logvero(y, x, beta, delta, q, k);
   target += sum(logv_obs);
   //priors
   beta ~ normal(0, beta_scale);
   delta ~ normal(0, delta_scale);
+}
+
+generated quantities {
+  vector[num_elements(y)] log_lik;
+  log_lik = logvero(y, x, beta, delta, q, k);
 }
 
 

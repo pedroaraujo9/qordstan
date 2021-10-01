@@ -2,9 +2,11 @@
 #'
 #' @return list containing X, y, b (real coefs), delta's and gamma's
 #' @export
-#' @importFrom magrittr `%>%`
-#'
+#' @import magrittr
+#' @importFrom stats rexp rnorm runif sd
 #' @examples
+#' data = gen_data_example()
+#'
 gen_data_example = function() {
   set.seed(20)
   #observations
