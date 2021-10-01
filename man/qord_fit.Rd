@@ -4,26 +4,47 @@
 \alias{qord_fit}
 \title{Fit the ordinal quantilic regression model using stan}
 \usage{
-qord_fit(x, y, p, beta_scale = 1, delta_scale = 0.25, ...)
+qord_fit(
+  x,
+  y,
+  q,
+  beta_scale = 1,
+  delta_scale = 0.25,
+  iter = 2000,
+  warmup = 1000,
+  thin = 1,
+  chains = 1,
+  ...
+)
 }
 \arguments{
 \item{x}{numeric matrix with covariates}
 
 \item{y}{vector with categories}
 
-\item{p}{fixed quantile}
+\item{q}{fixed quantile}
 
 \item{beta_scale}{standard deviation for the coefs prior}
 
-\item{delta_scale}{standard deviation for the deltas prior (cutpoints)}
+\item{delta_scale}{standard deviation for the delta priors (cutpoints)}
+
+\item{iter}{number of iterations}
+
+\item{warmup}{length of warmup sample}
+
+\item{thin}{period of saving samples}
+
+\item{chains}{number of mcmc chains}
+
+\item{...}{aditional rstan parameters}
 }
 \value{
-stan model
+qordstan object
 }
 \description{
 Fit the ordinal quantilic regression model using stan
 }
 \examples{
 data = gen_data_example()
-fit = qord_fit(data$x, data$y, p = 0.5)
+fit = qord_fit(data$x, data$y, q = 0.5, iter = 10, warmup = 5)
 }
