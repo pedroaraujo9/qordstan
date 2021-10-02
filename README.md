@@ -1,3 +1,5 @@
+[![R build status](https://github.com/pedroaraujo9/qordstan/workflows/R-CMD-check/badge.svg)](https://github.com/pedroaraujo9/qordstan/actions)
+
 # qordstan
 Bayesian Quantile Regression for Ordinal Models with Stan
 
