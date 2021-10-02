@@ -10,24 +10,29 @@ posterior_resume = function(x, cred_mass = 0.95) {
   c("mean" = mean(x), "std" = sd(x),"cred LI" = hdi[1], "cred UI" = hdi[2])
 }
 
+#' Summary method for qordstan objects
+#'
 #' Summary method to qordstan models containing posterior mean, standard deviation
-#' and lower and upper bond for creditiva interval
+#' and lower and upper bond for credibility interval
 #'
-#' @param x qorstan object
-#' @param cred_mass length of creditive interval, must be between 0 and 1
+#'
+#' @aliases summary.qordstan
+#' @param object a qorstan object
+#' @param cred_mass length of credibility interval, must be between 0 and 1
 #' @param ... aditional arguments
-#' @export
-#' @return
-#' @examples
-#' data = gen_data_example()
-#' qord_model = qord_fit(data$x, data$y, q = 0.5, iter = 10, warmup = 5)
-#' summary(qord_model)
 #'
-summary.qordstan = function(x, ..., cred_mass) {
-  #params = list(...)
-  #cred_mass = params[['cred_mass']]
+#' @examples
+#' #data = gen_data_example()
+#' #qord_model = qord_fit(data$x, data$y, q = 0.5, iter = 10, warmup = 5)
+#' #summary(qord_model)
+#'
+#' @method summary qordstan
+#' @export
+#'
+#'
+summary.qordstan = function(object, cred_mass = 0.95, ...) {
   #get posterior sample
-  posterior_sample = x$posterior_sample
+  posterior_sample = object$posterior_sample
   #resume for beta
   beta_res = apply(posterior_sample$beta, posterior_resume, MARGIN = 2) %>% t()
   rownames(beta_res) = paste0("beta ", 1:nrow(beta_res))

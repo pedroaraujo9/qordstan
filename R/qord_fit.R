@@ -24,6 +24,7 @@ qord_fit = function(x, y, q,
                     thin = 1,
                     chains = 1,
                     ...) {
+
   #model data and parameters
   stan_data_list = list(
     x = x,

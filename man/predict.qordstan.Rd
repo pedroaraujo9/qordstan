@@ -4,27 +4,25 @@
 \alias{predict.qordstan}
 \title{Get posterior predictive sample from the model}
 \usage{
-\method{predict}{qordstan}(object, ...)
+\method{predict}{qordstan}(object, type = "cat", new_data = NULL, ...)
 }
 \arguments{
-\item{object}{qordstan object}
+\item{object}{a qordstan object}
 
-\item{...}{aditional parameters}
+\item{type}{the type of prediction. It will be 'cat' by default, returning
+the category. If 'z' returns the underlying latent variable}
 
-\item{type}{type of prediction. It will be 'cat' by default, returning
-the categorie. If 'z' returns the underlyng latent variable}
+\item{new_data}{new covariates for prediction. if null, predicts from model data}
 
-\item{new_data}{new covariates for prediction.
-if null, predicts from model data}
-}
-\value{
-
+\item{...}{additional parameters}
 }
 \description{
-Get posterior predictive sample from the model
+Generate sample from posterior predictive distribution.
 }
 \examples{
-#' data = gen_data_example()
-fit = qord_fit(data$x, data$y, q = 0.5, iter = 200, warmup = 100)
-predict(fit, type='cat')
+#data = gen_data_example()
+#fit = qord_fit(data$x, data$y, q = 0.5, iter = 10, warmup = 5)
+#predict(fit)
+
+
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/predict.qordstan.R
 \name{.z_to_cat}
 \alias{.z_to_cat}
-\title{Transform underlyng latent variable in categorie}
+\title{Transform underlying latent variable in category}
 \usage{
 .z_to_cat(z, gamma)
 }
@@ -12,13 +12,8 @@
 \item{gamma}{cut points}
 }
 \value{
-categories
+vector with numeric categories
 }
 \description{
-Transform underlyng latent variable in categorie
-}
-\examples{
-z = rnorm(100)
-gm = rexp(100, 1/2)
-z_to_cat(z, gm)
+Transform underlying latent variable in category
 }

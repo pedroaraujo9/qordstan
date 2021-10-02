@@ -4,7 +4,9 @@ devtools::check()
 devtools::install()
 devtools::build()
 
+usethis::use_github_actions()
 
+use_github_actions_badge(name = "R-CMD-check")
 usethis::use_mit_license()
 
 library(magrittr)
@@ -12,6 +14,18 @@ library(tidyverse)
 library(qordstan)
 library(rstan)
 
+#' @usage
+#' #s3 method for class 'qordstan'
+#' predict(object, type='cat', new_data = NULL, ...)
+#'
+#' @usage
+#' ##s3 method for class 'qordstan'
+#' summmary(object, cred_mass=0.95, ...)
+
+
+?qordstan::qord_fit
+
+?predict.qordstan
 
 #vector model_sample(matrix x, vector beta, vector delta, real p, int J) {
 #  real theta = (1.0-2.0*p)/(p*(1.0-p));
