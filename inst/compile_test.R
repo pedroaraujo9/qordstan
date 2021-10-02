@@ -4,7 +4,9 @@ devtools::check()
 devtools::install()
 devtools::build()
 
+usethis::use_github_actions()
 
+use_github_actions_badge(name = "R-CMD-check")
 usethis::use_mit_license()
 
 library(magrittr)
@@ -12,6 +14,54 @@ library(tidyverse)
 library(qordstan)
 library(rstan)
 
+#' @usage
+#' #s3 method for class 'qordstan'
+#' predict(object, type='cat', new_data = NULL, ...)
+#'
+#' @usage
+#' ##s3 method for class 'qordstan'
+#' summmary(object, cred_mass=0.95, ...)
+
+
+?qordstan::qord_fit
+
+?predict.qordstan
+
+#vector model_sample(matrix x, vector beta, vector delta, real p, int J) {
+#  real theta = (1.0-2.0*p)/(p*(1.0-p));
+#  real tau = sqrt(2.0/(p*(1-p)));
+#}
+
+
+z = rexp(100, 1/6)
+y_sim = numeric(length = length(z))
+gamma = c(1, 2, 3)
+k = 5
+
+## 0 1 2 3
+## (-inf, 0) -> 1
+#  (0, 1) -> 2
+# (1, 2) -> 3
+# (2, 3) -> 4
+# (3, inf) -> 5
+
+for(i in 1:100) {
+  for(j in 1:(k-2)) {
+    if(z[i] <= 0) {
+      y_sim[i] = 1;
+      break
+    }else if(z[i] > gamma[k-2]) {
+      y_sim[i] = k;
+      break
+    }else if(z[i] <= gamma[j]){
+      y_sim[i] = j + 1
+      break
+    }
+  }
+}
+
+z[1:4]
+y_sim[1:4]
 
 
 
@@ -41,7 +91,8 @@ stan_data_list = list(
   y = y,
   q = q,
   k = length(unique(y)),
-  p = ncol(x), n = nrow(x),
+  p = ncol(x),
+  n = nrow(x),
   beta_scale = beta_scale,
   delta_scale = delta_scale
 )
@@ -51,12 +102,83 @@ model = stan_model("inst/stan/model.stan", model_name = 'qord')
 
 model_fit = rstan::sampling(
   model, data = stan_data_list,
-  pars = c("beta", "gamma", "log_lik"), iter = mcmc_samples,
+  pars = c("beta", "gamma", "log_lik", "linear_pred"), iter = mcmc_samples,
   warmup = warmup_samples, thin = thin, chains = chains
 )
 
+theta = (1-2*q)/(q*(1-q))
+tau = sqrt(2/(q*(1-q)))
 am = model_fit %>% rstan::extract()
+
+w = replicate(n = dim(am$linear_pred)[2], expr = {rexp(n=dim(am$linear_pred)[1])})
+u = replicate(n = dim(am$linear_pred)[2], expr = {rnorm(n=dim(am$linear_pred)[1])})
+
+
+z = am$linear_pred + theta*w + tau*sqrt(w)*u
+z[,1]
+
 am$log_lik %>% dim()
+am$linear_pred %>% dim()
+am$z[,1]
+
+am$z[,1]
+y_hat = matrix(NA, 1000, 900)
+
+
+am$z %>% dim()
+
+for(i in 1:1000) {
+  y_hat[i, ] = am$z[i,] %>%
+    cut(breaks = c(-Inf, 0, am$gamma[i,], Inf), labels = 1:5)
+}
+
+get_cut = function(z, gamma) {
+  cut_breaks = c(-Inf, 0, gamma, Inf)
+  z %>%
+    cut(breaks = cut_breaks, labels = 1:(length(cut_breaks)-1)) %>%
+    as.character() %>%
+    as.numeric()
+}
+
+
+lapply(1:1000, FUN = function(i){get_cut(z[i,], gamma[i,])})
+
+poster
+
+i=1
+get_cut(z[i,], am$gamma[i,])
+
+lapply(1:)
+
+lapply(1:1000, FUN=function(i) get_cut(am$z[i,], am$gamma[i,]))
+
+get_cut = Vectorize(get_cut)
+
+get_cut(am$z, am$gamma)
+
+am$beta %>% dim()
+
+data$x %>% dim()
+head(data$x%*%am$beta[1,])
+
+linear_pred = data$x%*%t(am$beta)
+
+
+am$linear_pred[1:10, 1:3]
+pred_linear = t(pred_linear_c)
+
+alpha = 0.05
+q = y_hat %>% apply(quantile, MARGIN = 2, p = c(alpha/2, 1-alpha/2)) %>% t()
+pred = cbind(q, data$y)
+
+mean((pred[,3] <= pred[,2]) & (pred[,3] >= pred[,1]))
+
+
+am$gamma[1,]
+
+am$y_sim %>% dim()
+am$y_sim[,4] %>% table() %>% prop.table()
+data$y[4]
 
 library(loo)
 library(magrittr)

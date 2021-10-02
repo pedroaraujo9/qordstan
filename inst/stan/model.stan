@@ -66,8 +66,11 @@ functions{
 
   }
 
+
+
 }
-// dados
+
+// data
 data{
   int k; // number of categories in the response
   int n; // number of observations
@@ -97,10 +100,12 @@ model {
   //priors
   beta ~ normal(0, beta_scale);
   delta ~ normal(0, delta_scale);
+
 }
 
 generated quantities {
-  vector[num_elements(y)] log_lik;
+  vector[n] log_lik;
+  //posterior loglike
   log_lik = logvero(y, x, beta, delta, q, k);
 }
 

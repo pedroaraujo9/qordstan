@@ -2,28 +2,24 @@
 % Please edit documentation in R/summary.qordstan.R
 \name{summary.qordstan}
 \alias{summary.qordstan}
-\title{Summary method to qordstan models containing posterior mean, standard deviation
-and lower and upper bond for creditiva interval}
+\title{Summary method for qordstan objects}
 \usage{
-\method{summary}{qordstan}(x, ..., cred_mass)
+\method{summary}{qordstan}(object, cred_mass = 0.95, ...)
 }
 \arguments{
-\item{x}{qorstan object}
+\item{object}{a qorstan object}
+
+\item{cred_mass}{length of credibility interval, must be between 0 and 1}
 
 \item{...}{aditional arguments}
-
-\item{cred_mass}{length of creditive interval, must be between 0 and 1}
-}
-\value{
-
 }
 \description{
 Summary method to qordstan models containing posterior mean, standard deviation
-and lower and upper bond for creditiva interval
+and lower and upper bond for credibility interval
 }
 \examples{
-data = gen_data_example()
-qord_model = qord_fit(data$x, data$y, q = 0.5, iter = 10, warmup = 5)
-summary(qord_model)
+#data = gen_data_example()
+#qord_model = qord_fit(data$x, data$y, q = 0.5, iter = 10, warmup = 5)
+#summary(qord_model)
 
 }
