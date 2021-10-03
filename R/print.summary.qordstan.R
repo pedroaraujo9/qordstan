@@ -16,6 +16,6 @@
 #' #summary(qord_model)
 #'
 print.summary.qordstan = function(x, ...) {
-  cat("Quanlitic Ordinal model fit\n")
+  cat("Ordinal quantile model fit\n\n")
   printCoefmat(x$summary_table, digits = 4)
 }

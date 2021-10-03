@@ -1,4 +1,4 @@
-#' Fit the ordinal quantilic regression model using stan
+#' Fit the ordinal quantile regression model using Stan
 #'
 #' @param x numeric matrix with covariates
 #' @param y vector with categories

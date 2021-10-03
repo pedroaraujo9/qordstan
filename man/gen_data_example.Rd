@@ -7,7 +7,8 @@
 gen_data_example()
 }
 \value{
-list containing X, y, b (real coefs), delta's and gamma's
+list containing x (covariates), y (response), b (real coefs),
+delta's and gamma's
 }
 \description{
 Generate random data to test function
