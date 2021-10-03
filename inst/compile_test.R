@@ -3,8 +3,14 @@ devtools::document()
 devtools::check()
 devtools::install()
 devtools::build()
+devtools::use_testthat()
 
+
+usethis::use_testthat()
 usethis::use_github_actions()
+usethis::use_coverage(type = c("codecov"))
+
+usethis::use_test(name = "gen_data_example")
 
 use_github_actions_badge(name = "R-CMD-check")
 usethis::use_mit_license()
@@ -13,56 +19,9 @@ library(magrittr)
 library(tidyverse)
 library(qordstan)
 library(rstan)
+library(covr)
 
-#' @usage
-#' #s3 method for class 'qordstan'
-#' predict(object, type='cat', new_data = NULL, ...)
-#'
-#' @usage
-#' ##s3 method for class 'qordstan'
-#' summmary(object, cred_mass=0.95, ...)
-
-
-?qordstan::qord_fit
-
-?predict.qordstan
-
-#vector model_sample(matrix x, vector beta, vector delta, real p, int J) {
-#  real theta = (1.0-2.0*p)/(p*(1.0-p));
-#  real tau = sqrt(2.0/(p*(1-p)));
-#}
-
-
-z = rexp(100, 1/6)
-y_sim = numeric(length = length(z))
-gamma = c(1, 2, 3)
-k = 5
-
-## 0 1 2 3
-## (-inf, 0) -> 1
-#  (0, 1) -> 2
-# (1, 2) -> 3
-# (2, 3) -> 4
-# (3, inf) -> 5
-
-for(i in 1:100) {
-  for(j in 1:(k-2)) {
-    if(z[i] <= 0) {
-      y_sim[i] = 1;
-      break
-    }else if(z[i] > gamma[k-2]) {
-      y_sim[i] = k;
-      break
-    }else if(z[i] <= gamma[j]){
-      y_sim[i] = j + 1
-      break
-    }
-  }
-}
-
-z[1:4]
-y_sim[1:4]
-
+codecov(token = "cbaab2b6-52fb-43c4-bfcb-c5cfb849ae6a")
 
 data = gen_data_example()
 fit = qord_fit(data$x, data$y, q = 0.5)
@@ -73,15 +32,7 @@ a$summary_table
 a
 class(summary(fit))
 
-pred = predict(fit)
 
-cmat <- cbind(rnorm(3, 10), sqrt(rchisq(3, 12)))
-cmat <- cbind(cmat, cmat[, 1]/cmat[, 2])
-cmat <- cbind(cmat, 2*pnorm(-cmat[, 3]))
-colnames(cmat) <- c("Estimate", "Std.Err", "Z value", "Pr(>z)")
-cmat
-printCoefmat(cmat[, 1:3])
-printCoefmat(cmat)
 
 
 
