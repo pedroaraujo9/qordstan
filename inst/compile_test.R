@@ -21,7 +21,17 @@ library(qordstan)
 library(rstan)
 library(covr)
 
-codecov(token = "cbaab2b6-52fb-43c4-bfcb-c5cfb849ae6a")
+data = gen_data_example(n=3000, k = 6, seed = 1)
+data$gamma
+data$y %>% table() %>% prop.table()
+
+
+quantile(resp, probs = c(0.25, 0.5, 0.75))
+
+devtools::load_all()
+
+
+codecov(token = "cbaab2b6-52fb-43c4-bfcb-c5cfb849ae6a",)
 
 data = gen_data_example()
 fit = qord_fit(data$x, data$y, q = 0.5)

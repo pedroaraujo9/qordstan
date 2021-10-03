@@ -4,7 +4,6 @@
 #' @param x summary.qordstan object
 #' @param ... additional parameters
 #'
-#'
 #' @method print summary.qordstan
 #' @return None
 #' @export
