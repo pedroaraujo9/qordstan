@@ -59,6 +59,6 @@ gen_data_example = function(n = 1000, k = 5, q = 0.5, p = 3, seed = 20) {
 
   deltas = log(gamma[-c(1, length(gamma))] %>% diff())
 
-  return(list(x=x, y=y, b=b, deltas=deltas, gamma=gamma))
-
+  values = list(x=x, y=y, b=b, deltas=deltas, gamma=gamma)
+  return(values)
 }

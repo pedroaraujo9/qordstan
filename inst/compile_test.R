@@ -1,5 +1,6 @@
 roxygen2::roxygenize()
 devtools::document()
+devtools::test()
 devtools::check()
 devtools::install()
 devtools::build()
