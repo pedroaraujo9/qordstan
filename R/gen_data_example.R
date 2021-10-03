@@ -1,6 +1,8 @@
 #' Generate random data to test function
 #'
-#' @return list containing X, y, b (real coefs), delta's and gamma's
+#' @aliases gen_data_example
+#' @return list containing x (covariates), y (response), b (real coefs),
+#' delta's and gamma's
 #' @export
 #' @import magrittr
 #' @importFrom stats rexp rnorm runif sd

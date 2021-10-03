@@ -7,7 +7,7 @@
 #'
 posterior_resume = function(x, cred_mass = 0.95) {
   hdi = HDInterval::hdi(x, cred_mass) %>% as.numeric()
-  c("mean" = mean(x), "std" = sd(x),"cred LI" = hdi[1], "cred UI" = hdi[2])
+  c("mean" = mean(x), "std" = sd(x),"HPD LI" = hdi[1], "HPD UI" = hdi[2])
 }
 
 #' Summary method for qordstan objects
@@ -41,7 +41,10 @@ summary.qordstan = function(object, cred_mass = 0.95, ...) {
   rownames(gamma_res) = paste0("gamma", 1:nrow(gamma_res))
   #binding resumes
   res = rbind(beta_res, gamma_res)
-  res
+  #atributes
+  value = list(summary_table = res)
+  attr(value, "class") = "summary.qordstan"
+  return(value)
 }
 
 

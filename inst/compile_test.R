@@ -68,11 +68,12 @@ data = gen_data_example()
 fit = qord_fit(data$x, data$y, q = 0.5)
 
 fit
-summary(fit)
+a = summary(fit)
+a$summary_table
+a
+class(summary(fit))
 
 pred = predict(fit)
-
-
 
 cmat <- cbind(rnorm(3, 10), sqrt(rchisq(3, 12)))
 cmat <- cbind(cmat, cmat[, 1]/cmat[, 2])

@@ -4,9 +4,9 @@
 \name{qordstan-package}
 \alias{qordstan-package}
 \alias{qordstan}
-\title{The 'qordstan' package.}
+\title{Fit bayesian ordinal quantilic regression with Stan.}
 \description{
-A DESCRIPTION OF THE PACKAGE
+bayesian ordinal quantilic regression with Stan
 }
 \references{
 Stan Development Team (2020). RStan: the R interface to Stan. R package version 2.21.2. https://mc-stan.org

@@ -24,5 +24,4 @@ Generate sample from posterior predictive distribution.
 #fit = qord_fit(data$x, data$y, q = 0.5, iter = 10, warmup = 5)
 #predict(fit)
 
-
 }
