@@ -66,7 +66,7 @@ predict.qordstan = function(object, type = "cat", new_data = NULL, ...) {
   #find category and return category if required
   if(type == 'cat') {
     y_pred = matrix(NA, dim_preds[1], dim_preds[2])
-    for(i in 1:dim_preds[2]) y_pred[i,] = .z_to_cat(z[i,], gamma[i])
+    for(i in 1:dim_preds[1]) y_pred[i,] = .z_to_cat(z[i,], gamma[i])
     return(y_pred)
   }
 
