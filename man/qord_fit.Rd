@@ -2,7 +2,7 @@
 % Please edit documentation in R/qord_fit.R
 \name{qord_fit}
 \alias{qord_fit}
-\title{Fit the ordinal quantilic regression model using stan}
+\title{Fit the ordinal quantile regression model using Stan}
 \usage{
 qord_fit(
   x,
@@ -42,7 +42,7 @@ qord_fit(
 qordstan object
 }
 \description{
-Fit the ordinal quantilic regression model using stan
+Fit the ordinal quantile regression model using Stan
 }
 \examples{
 data = gen_data_example()

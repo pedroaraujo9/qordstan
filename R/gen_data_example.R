@@ -13,6 +13,7 @@
 #'
 #' @return list containing x (covariates), y (response), b (real coefs),
 #' delta's and gamma's
+#'
 #' @details
 #' x ~ runif
 #' beta ~ normal
@@ -47,7 +48,7 @@ gen_data_example = function(n = 1000, k = 5, q = 0.5, p = 3, seed = 20) {
   freq_nom_base = (1-freq_base)/(k-1)
   #get quantiles from z to ensure that proportion
   qfreq_nom_base = (freq_base) + freq_nom_base*1:(k-2)
-  qgamma = quantile(z, qfreq_nom_base)
+  qgamma = quantile(z, qfreq_nom_base) %>% as.numeric()
 
   #cutpoints
   gamma = c(-Inf, 0, qgamma, Inf) %>% sort()

@@ -2,16 +2,34 @@
 % Please edit documentation in R/gen_data_example.R
 \name{gen_data_example}
 \alias{gen_data_example}
-\title{Generate random data to test function}
+\title{Generate random data to test estimation procedure}
 \usage{
-gen_data_example()
+gen_data_example(n = 1000, k = 5, q = 0.5, p = 3, seed = 20)
+}
+\arguments{
+\item{n}{number of observations}
+
+\item{k}{number of categories}
+
+\item{q}{quantile}
+
+\item{p}{number of covariates}
+
+\item{seed}{random seed}
 }
 \value{
 list containing x (covariates), y (response), b (real coefs),
 delta's and gamma's
 }
 \description{
-Generate random data to test function
+Generate random from a specific quantile to fit the model and check if
+estimation procedure is working properly
+}
+\details{
+x ~ runif
+beta ~ normal
+the fist gamma parameter is 0, the rest is chooose in order to non baseline
+categories have the same number of observations
 }
 \examples{
 data = gen_data_example()
