@@ -1,6 +1,6 @@
-#' The 'qordstan' package.
+#' Fit bayesian ordinal quantilic regression with Stan.
 #'
-#' @description A DESCRIPTION OF THE PACKAGE
+#' @description bayesian ordinal quantilic regression with Stan
 #'
 #' @docType package
 #' @name qordstan-package
