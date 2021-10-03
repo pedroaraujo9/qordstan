@@ -4,16 +4,17 @@ devtools::check()
 devtools::install()
 devtools::build()
 devtools::use_testthat()
-
-
-usethis::use_testthat()
+usethis::use_test("gen_data_example")
 usethis::use_github_actions()
 usethis::use_coverage(type = c("codecov"))
-
+dir.create("/home/pedro/tmp/")
+Sys.setenv(TMPDIR="/home/pedro/tmp/")
 usethis::use_test(name = "gen_data_example")
 
-use_github_actions_badge(name = "R-CMD-check")
+usethis::use_github_actions_badge(name = "R-CMD-check")
 usethis::use_mit_license()
+
+install.packages('ggplot2')
 
 library(magrittr)
 library(tidyverse)
@@ -21,9 +22,21 @@ library(qordstan)
 library(rstan)
 library(covr)
 
-codecov(token = "cbaab2b6-52fb-43c4-bfcb-c5cfb849ae6a")
 
-data = gen_data_example()
+data$gamma
+data$y %>% table() %>% prop.table()
+
+
+quantile(resp, probs = c(0.25, 0.5, 0.75))
+
+devtools::load_all()
+
+
+codecov(token = "cbaab2b6-52fb-43c4-bfcb-c5cfb849ae6a",)
+
+
+data = gen_data_example(n=3000, k = 6, seed = 1, p = 6)
+data$y %>% table()
 fit = qord_fit(data$x, data$y, q = 0.5)
 
 fit
@@ -31,9 +44,10 @@ a = summary(fit)
 a$summary_table
 a
 class(summary(fit))
+summary(fit)
 
-
-
+data$b
+data$gamma
 
 
 x = data$x
