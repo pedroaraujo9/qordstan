@@ -64,6 +64,15 @@ z[1:4]
 y_sim[1:4]
 
 
+data = gen_data_example()
+fit = qord_fit(data$x, data$y, q = 0.5)
+
+fit
+summary(fit)
+
+pred = predict(fit)
+
+
 
 cmat <- cbind(rnorm(3, 10), sqrt(rchisq(3, 12)))
 cmat <- cbind(cmat, cmat[, 1]/cmat[, 2])
@@ -74,7 +83,6 @@ printCoefmat(cmat[, 1:3])
 printCoefmat(cmat)
 
 
-data = gen_data_example()
 
 x = data$x
 y = data$y
