@@ -16,5 +16,9 @@ library(qordstan)
 data = gen_data_example()
 #stan fit
 fit = qord_fit(data$x, data$y, q = 0.5)
+#estimated parameters
+summary(fit)
+#sample from posterior predictive
+predict(fit)
 ```
 
