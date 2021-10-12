@@ -1,6 +1,7 @@
 roxygen2::roxygenize()
 devtools::document()
 devtools::test()
+codecov(token = "cbaab2b6-52fb-43c4-bfcb-c5cfb849ae6a")
 devtools::check()
 devtools::install()
 devtools::build()
@@ -22,10 +23,68 @@ library(tidyverse)
 library(qordstan)
 library(rstan)
 library(covr)
+library(bqror)
 
+?quantreg_or1
 
 data$gamma
 data$y %>% table() %>% prop.table()
+
+set.seed(101)
+data("data25j4")
+x <- data25j4$x
+y <- data25j4$y
+k <- dim(x)[2]
+J <- dim(as.array(unique(y)))[1]
+D0 <- 0.25*diag(J - 2)
+
+data = gen_data_example(n=3000, k = 6, seed = 1, p = 6)
+x <- data$x
+y <- data$y
+k <- dim(x)[2]
+J <- length(unique(as.numeric(y)))
+D0 <- 0.25*diag(J - 2)
+
+
+
+output <- quantreg_or1(y = y,x = x, B0 = 10*diag(k), D0 = D0,
+                       mcmc = 1000, p = 0.5, tune = 1)
+
+output$logMargLikelihood
+output$postMeanbeta
+data$b
+
+fit = qord_fit(x = x, y = as.numeric(y), q = 0.5, beta_scale = 10, delta_scale = 0.25,
+               iter = 100, warmup = 50)
+
+sm = summary(fit)
+sm$summary_table
+sm$beta_mean
+x = sm$waic
+sm$waic$estimates['waic', 'Estimate']
+
+sm
+
+
+sm$summary_table[, 'mean']
+
+log_lik = loo::extract_log_lik(fit$stan_fit)
+
+x = rstan::get_logposterior(fit$stan_fit)
+x %>% class()
+
+
+x %>% unlist() %>% mean()
+loo::waic(log_lik)
+
+lo
+
+mean(output$postStdbeta > sm$summary_table[, 'std'][1:6])
+output$beta[1,] %>% acf()
+fit$posterior_sample$beta[,1] %>% acf()
+
+mean(abs(data$b - output$postMeanbeta))
+mean(abs(data$b - sm$summary_table[1:6]))
 
 
 quantile(resp, probs = c(0.25, 0.5, 0.75))
@@ -33,10 +92,12 @@ quantile(resp, probs = c(0.25, 0.5, 0.75))
 devtools::load_all()
 
 
-codecov(token = "cbaab2b6-52fb-43c4-bfcb-c5cfb849ae6a",)
 
 
 data = gen_data_example(n=3000, k = 6, seed = 1, p = 6)
+
+
+
 data$y %>% table()
 fit = qord_fit(data$x, data$y, q = 0.5)
 

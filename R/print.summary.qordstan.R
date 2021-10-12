@@ -15,6 +15,8 @@
 #' #summary(qord_model)
 #'
 print.summary.qordstan = function(x, ...) {
-  cat("Ordinal quantile model fit\n\n")
+  cat("Ordinal quantile model\n")
+  cat("WAIC: ", round(x$waic$estimates['waic', 'Estimate'], 4), "\n\n")
+  cat("Posterior estimates:\n")
   printCoefmat(x$summary_table, digits = 4)
 }

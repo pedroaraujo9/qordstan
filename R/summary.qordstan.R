@@ -33,6 +33,7 @@ posterior_resume = function(x, cred_mass = 0.95) {
 summary.qordstan = function(object, cred_mass = 0.95, ...) {
   #get posterior sample
   posterior_sample = object$posterior_sample
+  waic = object$waic
   #resume for beta
   beta_res = apply(posterior_sample$beta, posterior_resume, MARGIN = 2) %>% t()
   rownames(beta_res) = paste0("beta ", 1:nrow(beta_res))
@@ -41,8 +42,16 @@ summary.qordstan = function(object, cred_mass = 0.95, ...) {
   rownames(gamma_res) = paste0("gamma", 1:nrow(gamma_res))
   #binding resumes
   res = rbind(beta_res, gamma_res)
+  #means
+  beta_mean = beta_res[, 'mean']
+  gamma_mean = gamma_res[, 'mean']
   #atributes
-  value = list(summary_table = res)
+  value = list(
+    summary_table = res,
+    beta_mean = beta_mean,
+    gamma_mean = gamma_mean,
+    waic = waic
+  )
   attr(value, "class") = "summary.qordstan"
   return(value)
 }

@@ -44,7 +44,6 @@ qord_fit = function(x, y, q,
     ...
   )
 
-
   #model output
   out = new_qordstan(
     model_fit,
