@@ -5,10 +5,10 @@
 \title{Fit the ordinal quantile regression model using Stan}
 \usage{
 qord_fit(
-  x,
-  y,
+  formula,
   q,
-  beta_scale = 1,
+  data,
+  beta_scale = 100,
   delta_scale = 0.25,
   iter = 2000,
   warmup = 1000,
@@ -18,11 +18,11 @@ qord_fit(
 )
 }
 \arguments{
-\item{x}{numeric matrix with covariates}
-
-\item{y}{vector with categories}
+\item{formula}{model formula}
 
 \item{q}{fixed quantile}
+
+\item{data}{data.frame with response variable and covariates}
 
 \item{beta_scale}{standard deviation for the coefs prior}
 
@@ -46,5 +46,5 @@ Fit the ordinal quantile regression model using Stan
 }
 \examples{
 data = gen_data_example()
-fit = qord_fit(data$x, data$y, q = 0.5, iter = 10, warmup = 5)
+fit = qord_fit(y ~ ., q = 0.5, data = data$example_df, iter = 10, warmup = 5)
 }

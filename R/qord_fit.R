@@ -1,8 +1,9 @@
 #' Fit the ordinal quantile regression model using Stan
 #'
-#' @param x numeric matrix with covariates
-#' @param y vector with categories
+#'
+#' @param formula model formula
 #' @param q fixed quantile
+#' @param data data.frame with response variable and covariates
 #' @param beta_scale standard deviation for the coefs prior
 #' @param delta_scale standard deviation for the delta priors (cutpoints)
 #' @param iter number of iterations
@@ -16,8 +17,10 @@
 #' @import magrittr
 #' @examples
 #' data = gen_data_example()
-#' fit = qord_fit(data$x, data$y, q = 0.5, iter = 10, warmup = 5)
-qord_fit = function(formula, q, data,
+#' fit = qord_fit(y ~ ., q = 0.5, data = data$example_df, iter = 10, warmup = 5)
+qord_fit = function(formula,
+                    q,
+                    data,
                     beta_scale = 100,
                     delta_scale = 0.25,
                     iter = 2000,
