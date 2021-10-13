@@ -30,15 +30,47 @@ library(bqror)
 data$gamma
 data$y %>% table() %>% prop.table()
 
-set.seed(101)
-data("data25j4")
-x <- data25j4$x
-y <- data25j4$y
-k <- dim(x)[2]
-J <- dim(as.array(unique(y)))[1]
-D0 <- 0.25*diag(J - 2)
 
-data = gen_data_example(n=3000, k = 6, seed = 1, p = 6)
+data = gen_data_example(n=3000, k = 3, seed = 1, p = 6)
+
+data$example_df %>% names()
+
+formula = y ~ X1 + X2 + X3 + X1*X2
+
+data_variables = model.frame(formula = formula, data = data$example_df)
+response_name = all.vars(formula)[1]
+response_name
+x = model.matrix(formula, data = data$example_df)[, -1]
+y = data_variables[, response_name]
+
+x %>% head()
+y
+covariate_name = names(x)
+
+data$example_df %>% head()
+colnames(data$example_df) = c("aa", "bb", "cc", "dd", "ee", "ff", "my_response")
+
+fit = qord_fit(my_response ~ ., q = 0.5,
+               data = data$example_df, iter = 200, warmup = 100)
+
+fit
+fit %>% summary()
+
+data$b
+
+
+model.frame(y ~ x + x2 + x:x2, data = data.frame(x = data$x[,1], y = data$y, x2 = data$x[,2]))
+
+model.frame(formula = y  ~ X1*X2, data = data$example_df) %>% head()
+
+model.matrix(lm(y ~ X1*X2, data = data$example_df)) %>% head()
+
+ff <- log(Volume) ~ log(Height) + log(Girth)
+utils::str(m <- model.frame(ff, trees))
+
+
+mat <- model.matrix(y ~ X1*X2, data$example_df)
+mat %>% head()
 x <- data$x
 y <- data$y
 k <- dim(x)[2]

@@ -17,13 +17,26 @@
 #' @examples
 #' data = gen_data_example()
 #' fit = qord_fit(data$x, data$y, q = 0.5, iter = 10, warmup = 5)
-qord_fit = function(x, y, q,
-                    beta_scale = 1, delta_scale = 0.25,
+qord_fit = function(formula, q, data,
+                    beta_scale = 100,
+                    delta_scale = 0.25,
                     iter = 2000,
                     warmup = 1000,
                     thin = 1,
                     chains = 1,
                     ...) {
+
+
+  #all data variables
+  data_variables = model.frame(formula = formula, data = data)
+  #categorical response columns name
+  response_name = all.vars(formula)[1]
+
+  #get covariates and response
+  x = model.matrix(formula, data = data)[, -1]
+  y = data_variables[, response_name]
+  #covariate
+  covariate_name = names(x)
 
   #model data and parameters
   stan_data_list = list(
@@ -47,7 +60,9 @@ qord_fit = function(x, y, q,
   #model output
   out = new_qordstan(
     model_fit,
-    x = x, y = y, q = q,
+    x = x,
+    y = y,
+    q = q,
     beta_scale = beta_scale,
     delta_scale = delta_scale
   )
