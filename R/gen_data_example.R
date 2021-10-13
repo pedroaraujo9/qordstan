@@ -12,7 +12,7 @@
 #' @param seed random seed
 #'
 #' @return list containing x (covariates), y (response), b (real coefs),
-#' delta's and gamma's
+#' delta's, gamma's and final example_df data.frame with covariates and response
 #'
 #' @details
 #' x ~ runif
@@ -21,12 +21,56 @@
 #' categories have the same number of observations
 #'
 #' @export
-#' @import magrittr
-#' @importFrom stats rexp rnorm runif sd
+#' @import magrittr assertthat
+#' @importFrom stats rexp rnorm runif sd quantile model.frame model.matrix
 #' @examples
 #' data = gen_data_example()
 #'
 gen_data_example = function(n = 1000, k = 5, q = 0.5, p = 3, seed = 20) {
+  #check n
+  assertthat::assert_that(
+    is.numeric(n),
+    assertthat::is.scalar(n),
+    all.equal(n, as.integer(n)) == T,
+    n > p,
+    n > 0,
+    msg = "Number of observations `n` should be a positive integer greater than `p` (number of covariates) and 0"
+  )
+
+  #check k
+  assertthat::assert_that(
+    is.numeric(k),
+    assertthat::is.scalar(k),
+    all.equal(k, as.integer(k)) == T,
+    k > 2,
+    msg = "Number of categories `k` should be a positive integer greater than 3"
+  )
+
+  #check q
+  assertthat::assert_that(
+    is.numeric(q),
+    assertthat::is.scalar(q),
+    (q > 0) & (q < 1),
+    msg = "Quantile `q` should be a real number between 0 and 1 (exclusive)"
+  )
+
+  #check p
+  assertthat::assert_that(
+    is.numeric(p),
+    assertthat::is.scalar(p),
+    all.equal(p, as.integer(p)) == T,
+    p < n,
+    msg = "Number of covariates `p` should be positive integer lower than `n` (number of observations)"
+  )
+
+  #check seed
+  assertthat::assert_that(
+    is.numeric(seed),
+    length(seed) == 1,
+    all.equal(seed, as.integer(seed)) == T,
+    msg = "`seed` should be an integer"
+  )
+
   set.seed(seed)
   #covariáveis
   x = replicate(n = p, expr = {runif(n, min = 0, max = 1)})

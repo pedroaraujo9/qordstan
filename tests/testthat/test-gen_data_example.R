@@ -30,7 +30,7 @@ test_that("lengths and dimensions", {
 })
 
 
-test_that("types", {
+test_that("return_types", {
   #check if is list
   data = gen_data_example(n=3000, k = 6, p = 5)
   expect_true(data %>% is.list())
@@ -39,3 +39,19 @@ test_that("types", {
   expect_true(data$deltas %>% is.numeric())
   expect_true(data$gamma %>% is.numeric())
 })
+
+test_that("args_errors", {
+  expect_error(gen_data_example(n=10.1, k = 6, p = 5, q = 0.4))
+  expect_error(gen_data_example(n=100, k = 6, p = 200, q = 0.4))
+  expect_error(gen_data_example(n=100, k = 6, p = 200, q = 1))
+  expect_error(gen_data_example(n=1000, k = 6, p = 200, q = 2.2))
+  expect_error(gen_data_example(n=1000, k = 1, p = 200, q = 0.4))
+  expect_error(gen_data_example(n=1000, k = 4.5, p = 200, q = 0.4))
+  expect_error(gen_data_example(n=1000, k = 6, p = -2, q = 0.4))
+  expect_error(gen_data_example(n=-1000, k = 6, p = 10, q = 0.4))
+
+})
+
+
+
+

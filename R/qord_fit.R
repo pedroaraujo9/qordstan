@@ -7,14 +7,15 @@
 #' @param beta_scale standard deviation for the coefs prior
 #' @param delta_scale standard deviation for the delta priors (cutpoints)
 #' @param iter number of iterations
-#' @param warmup length of warmup sample
-#' @param thin period of saving samples
+#' @param warmup length of warmup samples
+#' @param thin period of the chain to retain
 #' @param chains number of mcmc chains
-#' @param ... aditional rstan parameters
+#' @param ... additional rstan parameters (see more in ?rstan::sampling)
 #'
 #' @return qordstan object
 #' @export
-#' @import magrittr
+#' @importFrom rlang is_formula
+#' @import magrittr assertthat
 #' @examples
 #' data = gen_data_example()
 #' fit = qord_fit(y ~ ., q = 0.5, data = data$example_df, iter = 10, warmup = 5)
@@ -24,11 +25,46 @@ qord_fit = function(formula,
                     beta_scale = 100,
                     delta_scale = 0.25,
                     iter = 2000,
-                    warmup = 1000,
+                    warmup = floor(iter/2),
                     thin = 1,
                     chains = 1,
                     ...) {
 
+  #check formula
+  assertthat::assert_that(
+    is_formula(formula),
+    msg = "`formula` should be a formula"
+  )
+
+  #check q
+  assertthat::assert_that(
+    is.numeric(q),
+    assertthat::is.scalar(q),
+    (q > 0) & (q < 1),
+    msg = "Quantile `q` should be a real number between 0 and 1 (exclusive)"
+  )
+
+  #check data
+  assertthat::assert_that(
+    is.data.frame(data),
+    nrow(data) > 0,
+    nrow(data) > ncol(data),
+    msg = "`data` should be a data.frame with rows greater than 0 and more observations than columns"
+  )
+
+  #check beta_scale
+  assertthat::assert_that(
+    is.scalar(beta_scale),
+    beta_scale > 0,
+    msg = "`beta_scale` should be a real number greater than 0"
+  )
+
+  #check delta_scale
+  assertthat::assert_that(
+    is.scalar(delta_scale),
+    delta_scale > 0,
+    msg = "`delta_scale` should be a real number greater than 0"
+  )
 
   #all data variables
   data_variables = model.frame(formula = formula, data = data)

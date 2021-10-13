@@ -10,6 +10,7 @@
 #' @return
 #' @export
 #' @examples
+#'#new_qordstan = function(stan_fit, x, y, q, beta_scale, delta_scale)
 #'
 new_qordstan = function(stan_fit, x, y, q, beta_scale, delta_scale) {
   #get posterior sample

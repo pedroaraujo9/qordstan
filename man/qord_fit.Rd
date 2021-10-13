@@ -11,7 +11,7 @@ qord_fit(
   beta_scale = 100,
   delta_scale = 0.25,
   iter = 2000,
-  warmup = 1000,
+  warmup = floor(iter/2),
   thin = 1,
   chains = 1,
   ...
@@ -30,13 +30,13 @@ qord_fit(
 
 \item{iter}{number of iterations}
 
-\item{warmup}{length of warmup sample}
+\item{warmup}{length of warmup samples}
 
-\item{thin}{period of saving samples}
+\item{thin}{period of the chain to retain}
 
 \item{chains}{number of mcmc chains}
 
-\item{...}{aditional rstan parameters}
+\item{...}{additional rstan parameters (see more in ?rstan::sampling)}
 }
 \value{
 qordstan object
