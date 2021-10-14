@@ -20,11 +20,12 @@ new_qordstan(stan_fit, x, y, q, beta_scale, delta_scale)
 \item{delta_scale}{standard deviation for the deltas prior (cutpoints)}
 }
 \value{
-
+qordstan object
 }
 \description{
 Creates qordstan object
 }
 \examples{
+#new_qordstan = function(stan_fit, x, y, q, beta_scale, delta_scale)
 
 }

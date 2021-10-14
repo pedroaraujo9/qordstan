@@ -1,17 +1,17 @@
 rm(list = ls())
 devtools::document()
 devtools::test()
-codecov(token = "cbaab2b6-52fb-43c4-bfcb-c5cfb849ae6a")
+covr::codecov(token = "cbaab2b6-52fb-43c4-bfcb-c5cfb849ae6a")
 devtools::check()
 devtools::install()
 devtools::build()
 devtools::use_testthat()
-usethis::use_test("gen_data_example")
+usethis::use_test("print.summary.qordstan")
 usethis::use_github_actions()
 usethis::use_coverage(type = c("codecov"))
 dir.create("/home/pedro/tmp/")
 Sys.setenv(TMPDIR="/home/pedro/tmp/")
-usethis::use_test(name = "gen_data_example")
+usethis::use_test(name = "qord_fit")
 
 usethis::use_github_actions_badge(name = "R-CMD-check")
 usethis::use_mit_license()
@@ -53,7 +53,14 @@ fit = qord_fit(y ~ X1 + X2, q = 0.1, delta_scale = 2,
                data = data$example_df, iter = 100)
 
 
-summary(fit)
+sm = summary(fit)
+sm
+sm$summary_table
 
+all.equal(1:max(data$example_df$y), unique(data$example_df$y) %>% sort())
 
+x = c(1, 2, 2, 5, 6, 1.1)
+
+all.equal(x %>% unique() %>% sort(),
+          x %>% unique() %>% sort() %>% as.integer())
 

@@ -77,6 +77,36 @@ qord_fit = function(formula,
   #covariate
   covariate_name = names(x)
 
+  #### checking data ####
+  #na
+  assertthat::assert_that(
+    !any(is.na(data_variables)),
+    msg = "`data` should not have NA's"
+  )
+
+  #response
+  assertthat::assert_that(
+    is.numeric(y),
+    msg = 'the response variable should be numeric'
+  )
+
+  assertthat::assert_that(
+    length(unique(y)) > 2,
+    msg = 'the response shoulbe have more than 2 categories'
+  )
+
+  #check if the response vary from 1 to k
+  assertthat::assert_that(
+    all.equal(1:max(y), unique(y) %>% sort()),
+    msg = 'the response variable should vary from 1 to the number of categories'
+  )
+
+  #check if the response only have integers
+  assertthat::assert_that(
+    all.equal(y %>% unique() %>% sort(), y %>% unique() %>% sort() %>% as.integer()) == T,
+    msg = 'the response variable should only have integers'
+  )
+
   #model data and parameters
   stan_data_list = list(
     x = x,

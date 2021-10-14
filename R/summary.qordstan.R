@@ -1,9 +1,9 @@
-#' Title
+#' Return vector with average, standard deviation and HDI
 #'
 #' @param x numeric vector
 #' @param cred_mass length of creditive interval. Must be between 0 and 1
 #' @import HDInterval
-#' @return
+#' @return numeric vector with mean, standard deviation and hpd
 #'
 posterior_resume = function(x, cred_mass = 0.95) {
   hdi = HDInterval::hdi(x, cred_mass) %>% as.numeric()
@@ -13,7 +13,7 @@ posterior_resume = function(x, cred_mass = 0.95) {
 #' Summary method for qordstan objects
 #'
 #' Summary method to qordstan models containing posterior mean, standard deviation
-#' and lower and upper bond for credibility interval
+#' and lower and upper bond of the high density credible interval
 #'
 #'
 #' @aliases summary.qordstan
@@ -23,14 +23,19 @@ posterior_resume = function(x, cred_mass = 0.95) {
 #'
 #' @examples
 #' #data = gen_data_example()
-#' #qord_model = qord_fit(data$x, data$y, q = 0.5, iter = 10, warmup = 5)
-#' #summary(qord_model)
+#' #fit = qord_fit(y ~ ., q = 0.5, data = data$example_df, iter = 10, warmup = 5)
+#' #summary(fit)
 #'
 #' @method summary qordstan
 #' @export
 #'
-#'
 summary.qordstan = function(object, cred_mass = 0.95, ...) {
+  #check cred_mass
+  assertthat::assert_that(
+    (cred_mass > 0) & (cred_mass < 1),
+    msg = '`cred_mass` should be a number between 0 and 1'
+  )
+
   #get posterior sample
   posterior_sample = object$posterior_sample
   waic = object$waic
@@ -40,7 +45,7 @@ summary.qordstan = function(object, cred_mass = 0.95, ...) {
   rownames(beta_res) = coef_names
   #resume for gamma
   gamma_res = apply(posterior_sample$gamma, posterior_resume, MARGIN = 2) %>% t()
-  rownames(gamma_res) = paste0("gamma", 1:nrow(gamma_res))
+  rownames(gamma_res) = paste0("gamma[", 1:nrow(gamma_res)) %>% paste0("]")
   #binding resumes
   res = rbind(beta_res, gamma_res)
   #means

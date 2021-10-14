@@ -7,8 +7,7 @@
 #' @param beta_scale standard deviation for the coefs prior
 #' @param delta_scale standard deviation for the deltas prior (cutpoints)
 #' @import loo
-#' @return
-#' @export
+#' @return qordstan object
 #' @examples
 #'#new_qordstan = function(stan_fit, x, y, q, beta_scale, delta_scale)
 #'
