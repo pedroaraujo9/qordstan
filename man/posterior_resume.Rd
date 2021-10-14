@@ -2,7 +2,7 @@
 % Please edit documentation in R/summary.qordstan.R
 \name{posterior_resume}
 \alias{posterior_resume}
-\title{Title}
+\title{Return vector with average, standard deviation and HDI}
 \usage{
 posterior_resume(x, cred_mass = 0.95)
 }
@@ -12,8 +12,8 @@ posterior_resume(x, cred_mass = 0.95)
 \item{cred_mass}{length of creditive interval. Must be between 0 and 1}
 }
 \value{
-
+numeric vector with mean, standard deviation and hpd
 }
 \description{
-Title
+Return vector with average, standard deviation and HDI
 }

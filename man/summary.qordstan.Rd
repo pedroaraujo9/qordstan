@@ -15,11 +15,11 @@
 }
 \description{
 Summary method to qordstan models containing posterior mean, standard deviation
-and lower and upper bond for credibility interval
+and lower and upper bond of the high density credible interval
 }
 \examples{
 #data = gen_data_example()
-#qord_model = qord_fit(data$x, data$y, q = 0.5, iter = 10, warmup = 5)
-#summary(qord_model)
+#fit = qord_fit(y ~ ., q = 0.5, data = data$example_df, iter = 10, warmup = 5)
+#summary(fit)
 
 }

@@ -19,7 +19,7 @@ gen_data_example(n = 1000, k = 5, q = 0.5, p = 3, seed = 20)
 }
 \value{
 list containing x (covariates), y (response), b (real coefs),
-delta's and gamma's
+delta's, gamma's and final example_df data.frame with covariates and response
 }
 \description{
 Generate random from a specific quantile to fit the model and check if

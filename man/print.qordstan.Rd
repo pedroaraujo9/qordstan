@@ -2,7 +2,7 @@
 % Please edit documentation in R/print.qordstan.R
 \name{print.qordstan}
 \alias{print.qordstan}
-\title{Print summary for qord object}
+\title{Print summary for qordstan object}
 \usage{
 \method{print}{qordstan}(x, ...)
 }
@@ -11,9 +11,11 @@
 
 \item{...}{aditional arguments}
 }
-\value{
-
-}
 \description{
-Print summary for qord object
+Print summary for qordstan object
+}
+\examples{
+#data = gen_data_example()
+#fit = qord_fit(y ~ ., q = 0.5, data = data$example_df, iter = 10, warmup = 5)
+#fit
 }
