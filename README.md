@@ -23,3 +23,8 @@ summary(fit)
 predict(fit)
 ```
 
+### References
+
+Mohammad Arshad Rahman "Bayesian Quantile Regression for Ordinal Models," Bayesian Analysis, Bayesian Anal. 11(1), 1-24, (March 2016)  
+
+
