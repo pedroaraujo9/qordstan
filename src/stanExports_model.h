@@ -33,7 +33,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_model");
-    reader.add_event(113, 111, "end", "model_model");
+    reader.add_event(112, 110, "end", "model_model");
     return reader;
 }
 template <typename T0__, typename T1__>
