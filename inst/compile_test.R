@@ -56,6 +56,10 @@ all.va
 fit = qord_fit(y ~ X1 + X2, q = 0.1, delta_scale = 2,
                data = data$example_df, iter = 1000)
 
+sm = summary(fit)
+sm
+fit
+
 predict(fit, type='cat') %>% dim()
 
 object = fit

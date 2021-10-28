@@ -56,7 +56,9 @@ summary.qordstan = function(object, cred_mass = 0.95, ...) {
     summary_table = res,
     beta_mean = beta_mean,
     gamma_mean = gamma_mean,
-    waic = waic
+    waic = waic,
+    n = object$x %>% nrow(),
+    k = object$y %>% unique() %>% length()
   )
   attr(value, "class") = "summary.qordstan"
   return(value)
