@@ -129,6 +129,7 @@ qord_fit = function(formula,
   #model output
   out = new_qordstan(
     model_fit,
+    formula = formula,
     x = x,
     y = y,
     q = q,

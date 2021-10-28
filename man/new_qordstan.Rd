@@ -4,10 +4,12 @@
 \alias{new_qordstan}
 \title{Creates qordstan object}
 \usage{
-new_qordstan(stan_fit, x, y, q, beta_scale, delta_scale)
+new_qordstan(stan_fit, formula, x, y, q, beta_scale, delta_scale)
 }
 \arguments{
 \item{stan_fit}{stan model fit object}
+
+\item{formula}{model formula}
 
 \item{x}{numeric matrix with covariates}
 
@@ -17,7 +19,7 @@ new_qordstan(stan_fit, x, y, q, beta_scale, delta_scale)
 
 \item{beta_scale}{standard deviation for the coefs prior}
 
-\item{delta_scale}{standard deviation for the deltas prior (cutpoints)}
+\item{delta_scale}{standard deviation for the deltas prior (cut-points)}
 }
 \value{
 qordstan object
