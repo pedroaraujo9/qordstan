@@ -16,10 +16,15 @@ library(qordstan)
 #simulated data
 data = gen_data_example()
 #stan fit
-fit = qord_fit(data$x, data$y, q = 0.5)
+fit = qord_fit(y ~ ., q = 0.5, data = data$example_df)
 #estimated parameters
 summary(fit)
 #sample from posterior predictive
 predict(fit)
 ```
+
+### References
+
+Mohammad Arshad Rahman "Bayesian Quantile Regression for Ordinal Models," Bayesian Analysis, Bayesian Anal. 11(1), 1-24, (March 2016)  
+
 
