@@ -36,9 +36,18 @@
 #'
 
 predict.qordstan = function(object, type = "cat", new_data = NULL, ...) {
+  #check type of prediction
+  assertthat::assert_that(
+    type %in% c("cat", "z"),
+    msg = "`type` only acceept `cat` and `z` as argument"
+  )
 
+  #if new data is null, get model data
   if(is.null(new_data)) {
     new_data = object$x
+    #if is not null, transform data.frame in X
+  }else{
+    new_data = model.matrix(object$formula, data = new_data)[, -1]
   }
 
   #coefficients posterior sample
@@ -53,9 +62,12 @@ predict.qordstan = function(object, type = "cat", new_data = NULL, ...) {
   tau = sqrt(2/(q*(1-q)))
   linear_pred = new_data%*%t(beta)
   dim_preds = dim(linear_pred)
+
   w = replicate(n = dim_preds[2], expr = {rexp(n=dim_preds[1])})
   u = replicate(n = dim_preds[2], expr = {rnorm(n=dim_preds[1])})
+
   z = linear_pred + theta*w + tau*sqrt(w)*u
+  z = t(z)
 
   #return z if required
   if(type == 'z') {
@@ -64,8 +76,12 @@ predict.qordstan = function(object, type = "cat", new_data = NULL, ...) {
 
   #find category and return category if required
   if(type == 'cat') {
-    y_pred = matrix(NA, dim_preds[1], dim_preds[2])
-    for(i in 1:dim_preds[1]) y_pred[i,] = .z_to_cat(z[i,], gamma[i])
+
+    y_pred = matrix(NA, dim_preds[2], dim_preds[1])
+
+    for(i in 1:dim_preds[2]) {
+      y_pred[i,] = .z_to_cat(z[i,], gamma[i,])
+    }
     return(y_pred)
   }
 

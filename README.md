@@ -8,7 +8,7 @@ Bayesian Quantile Regression for Ordinal Models with Stan
 
 ### Installation 
 ```r
-devtools::install_github("pedroaraujo9/qordstan", ref = 'main')
+devtools::install_github("pedroaraujo9/qordstan", ref = 'dev')
 ```
 ### Example
 ```r

@@ -1,17 +1,46 @@
 #' Creates qordstan object
 #'
 #' @param stan_fit stan model fit object
+#' @param formula model formula
 #' @param x numeric matrix with covariates
 #' @param y vector with categories
 #' @param q quantile
 #' @param beta_scale standard deviation for the coefs prior
-#' @param delta_scale standard deviation for the deltas prior (cutpoints)
+#' @param delta_scale standard deviation for the deltas prior (cut-points)
 #' @import loo
 #' @return qordstan object
 #' @examples
 #'#new_qordstan = function(stan_fit, x, y, q, beta_scale, delta_scale)
 #'
-new_qordstan = function(stan_fit, x, y, q, beta_scale, delta_scale) {
+new_qordstan = function(stan_fit, formula, x, y, q, beta_scale, delta_scale) {
+  #check if is stan fit
+  assertthat::assert_that(
+    class(stan_fit) == 'stanfit',
+    msg = '`stan_fit` should be a stanfit object'
+  )
+
+  #check beta_scale
+  assertthat::assert_that(
+    is.scalar(beta_scale),
+    beta_scale > 0,
+    msg = "`beta_scale` should be a real number greater than 0"
+  )
+
+  #check delta_scale
+  assertthat::assert_that(
+    is.scalar(delta_scale),
+    delta_scale > 0,
+    msg = "`delta_scale` should be a real number greater than 0"
+  )
+
+  #check q
+  assertthat::assert_that(
+    is.numeric(q),
+    assertthat::is.scalar(q),
+    (q > 0) & (q < 1),
+    msg = "Quantile `q` should be a real number between 0 and 1 (exclusive)"
+  )
+
   #get posterior sample
   posterior_sample = stan_fit %>% rstan::extract()
 
@@ -19,6 +48,7 @@ new_qordstan = function(stan_fit, x, y, q, beta_scale, delta_scale) {
 
   value = list(
     stan_fit = stan_fit,
+    formula = formula,
     posterior_sample = posterior_sample,
     x = x,
     y = y,
