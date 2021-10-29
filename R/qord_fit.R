@@ -10,6 +10,7 @@
 #' @param warmup length of warmup samples
 #' @param thin period of the chain to retain
 #' @param chains number of mcmc chains
+#' @param verbose boolean (default is TRUE) indicating whether to print rstan progress bar or not
 #' @param ... additional rstan parameters (see more in ?rstan::sampling)
 #'
 #' @return qordstan object
@@ -28,6 +29,7 @@ qord_fit = function(formula,
                     warmup = floor(iter/2),
                     thin = 1,
                     chains = 1,
+                    verbose = T,
                     ...) {
 
   #check formula
@@ -122,9 +124,11 @@ qord_fit = function(formula,
   model_fit = rstan::sampling(
     stanmodels$model, data = stan_data_list,
     pars = c("beta", "gamma", "log_lik"), iter = iter,
-    warmup = warmup, thin = thin, chains = chains,
+    warmup = warmup, thin = thin, chains = chains, open_progress = verbose,
     ...
   )
+
+  names(model_fit)[1:ncol(x)] = colnames(x)
 
   #model output
   out = new_qordstan(

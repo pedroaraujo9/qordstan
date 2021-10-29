@@ -50,10 +50,11 @@ predict.qordstan = function(object, type = "cat", new_data = NULL, ...) {
     new_data = model.matrix(object$formula, data = new_data)[, -1]
   }
 
+  posterior_sample = object$posterior_sample
   #coefficients posterior sample
-  beta = object$posterior_sample$beta
+  beta = posterior_sample[, colnames(object$x)]
   #cutpoints posterior sample
-  gamma = object$posterior_sample$gamma
+  gamma = posterior_sample[, grepl("gamma", colnames(posterior_sample))]
   #quantile
   q = object$q
 

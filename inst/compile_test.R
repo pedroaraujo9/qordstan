@@ -32,35 +32,26 @@ library(bqror)
 
 devtools::load_all()
 
-data$gamma
-data$y %>% table() %>% prop.table()
-
-
 data = gen_data_example(n=3000, k = 5, seed = 1, p = 6, q = 0.5)
 
-all.equal(x, as.integer(x)) == T
-
-data$example_df %>% names()
-
-formula = y ~ X1 + X2 + X3 + X1*X2
-
-data$example_df %>% head()
-colnames(data$example_df) = c("aa", "bb", "cc", "dd", "ee", "ff", "my_response")
-
-data$example_df %>% head()
-
-all.vars(y ~ .)
-
-all.va
 
 fit = qord_fit(y ~ X1 + X2, q = 0.1, delta_scale = 2,
-               data = data$example_df, iter = 1000)
+               data = data$example_df, iter = 500)
 
+
+fit$posterior_sample %>% head()
 sm = summary(fit)
 sm
 fit
 
-predict(fit, type='cat') %>% dim()
+fit$posterior_sample %>% head()
+
+
+pred = predict(fit, type='cat')
+
+pred %>% apply(MARGIN = 2, FUN = function(x){
+  table(x) %>% which.max()
+}) %>% table()
 
 object = fit
 new_data = object$x
@@ -71,6 +62,12 @@ gamma = object$posterior_sample$gamma
 #quantile
 q = object$q
 
+library(bayesplot)
+
+fit$posterior_sample$beta
+
+mcmc_areas(fit$posterior_sample, pars = c("X1", "X2"),
+           prob = 0.95)
 
 
 

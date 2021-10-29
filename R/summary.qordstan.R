@@ -40,18 +40,25 @@ summary.qordstan = function(object, cred_mass = 0.95, ...) {
   posterior_sample = object$posterior_sample
   waic = object$waic
   coef_names = object$x %>% colnames()
+
   #resume for beta
-  beta_res = apply(posterior_sample$beta, posterior_resume, MARGIN = 2) %>% t()
-  rownames(beta_res) = coef_names
+  beta_posterior = posterior_sample[, colnames(object$x)]
+  beta_res = apply(beta_posterior, posterior_resume, MARGIN = 2) %>% t()
+  #rownames(beta_res) = coef_names
+
   #resume for gamma
-  gamma_res = apply(posterior_sample$gamma, posterior_resume, MARGIN = 2) %>% t()
-  rownames(gamma_res) = paste0("gamma[", 1:nrow(gamma_res)) %>% paste0("]")
+  gamma_posterior = posterior_sample[, grepl("gamma", colnames(posterior_sample))]
+  gamma_res = apply(gamma_posterior, posterior_resume, MARGIN = 2) %>% t()
+  #rownames(gamma_res) = paste0("gamma[", 1:nrow(gamma_res)) %>% paste0("]")
+
   #binding resumes
   res = rbind(beta_res, gamma_res)
+
   #means
   beta_mean = beta_res[, 'mean']
   gamma_mean = gamma_res[, 'mean']
-  #atributes
+
+  #attributes
   value = list(
     summary_table = res,
     beta_mean = beta_mean,
