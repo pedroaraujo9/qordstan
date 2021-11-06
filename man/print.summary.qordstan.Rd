@@ -20,3 +20,10 @@ Print method for summary method
 #summary(fit)
 
 }
+\seealso{
+Other qordstan: 
+\code{\link{predict.qordstan}()},
+\code{\link{qord_fit}()},
+\code{\link{summary.qordstan}()}
+}
+\concept{qordstan}

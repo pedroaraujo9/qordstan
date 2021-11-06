@@ -9,10 +9,10 @@
 #' @param delta_scale standard deviation for the deltas prior (cut-points)
 #' @import loo
 #' @return qordstan object
+#' @author Pedro Araújo
 #' @examples
-#' if(FALSE) {
-#'     new_qordstan = function(stan_fit, formula, x, y, q, beta_scale, delta_scale)
-#' }
+#' #new_qordstan = function(stan_fit, formula, x, y, q, beta_scale, delta_scale)
+#'
 #'
 #'
 new_qordstan = function(stan_fit, formula, x, y, q, beta_scale, delta_scale) {

@@ -16,7 +16,7 @@
 
 #' Get posterior predictive sample from the model
 #'
-#' Generate sample from posterior predictive distribution.
+#' Generate sample from model posterior predictive distribution.
 #'
 #'
 #' @aliases predict.qordstan
@@ -32,8 +32,11 @@
 #' #predict(fit)
 #'
 #' @method predict qordstan
+#' @author Pedro Araujo
 #' @export
-#'
+#' @return matrix where rows are the sample of the prediction and column the sample of individuals.
+#' @family qordstan
+
 
 predict.qordstan = function(object, type = "cat", new_data = NULL, ...) {
   #check type of prediction

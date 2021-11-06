@@ -1,5 +1,6 @@
 #' Print method for summary method
 #'
+#'
 #' @aliases print.summary.qordstan
 #' @param x summary.qordstan object
 #' @param ... additional parameters
@@ -8,7 +9,7 @@
 #' @return NULL
 #' @export
 #' @importFrom stats printCoefmat
-#'
+#' @family qordstan
 #' @examples
 #' #data = gen_data_example()
 #' #fit = qord_fit(y ~ ., q = 0.5, data = data$example_df, iter = 10, warmup = 5)

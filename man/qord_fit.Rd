@@ -2,7 +2,7 @@
 % Please edit documentation in R/qord_fit.R
 \name{qord_fit}
 \alias{qord_fit}
-\title{Fit the ordinal quantile regression model using Stan}
+\title{Fit bayesian ordinal quantile model}
 \usage{
 qord_fit(
   formula,
@@ -14,6 +14,7 @@ qord_fit(
   warmup = floor(iter/2),
   thin = 1,
   chains = 1,
+  verbose = T,
   ...
 )
 }
@@ -36,15 +37,45 @@ qord_fit(
 
 \item{chains}{number of mcmc chains}
 
+\item{verbose}{boolean (default is TRUE) indicating whether to print rstan progress bar or not}
+
 \item{...}{additional rstan parameters (see more in ?rstan::sampling)}
 }
 \value{
-qordstan object
+a qordstan object with components:\tabular{ll}{
+\code{stan_fit} \tab \code{stanfit} object with the fitted model \cr
+\tab \cr
+\code{posterior_sample} \tab mixed posterior sample \cr
+\tab \cr
+\code{posterior_log_lik} \tab posterior log likelihood \cr
+\code{x} \tab matrix with model covariates \cr
+\code{y} \tab numeric vector with model response \cr
+\code{q} \tab model quantile \cr
+\code{beta_scale} \tab prior beta scale \cr
+\code{gamma_scale} \tab prior gamma scale \cr
+\code{waic} \tab \code{loo} object with WAIC \cr
+}
 }
 \description{
-Fit the ordinal quantile regression model using Stan
+fit a bayesian ordinal quantile model using NUTS algorithm through Stan. This function return an \code{qordstan} object with the model \code{stanfit} object and other posterior informations.
+}
+\details{
+this function fit the model described in the paper \emph{Mohammad Arshad Rahman "Bayesian Quantile Regression for Ordinal Models," Bayesian Analysis, Bayesian Anal. 11(1), 1-24, (March 2016)} using \code{rstan}.
 }
 \examples{
 data = gen_data_example()
 fit = qord_fit(y ~ ., q = 0.5, data = data$example_df, iter = 10, warmup = 5)
 }
+\references{
+Mohammad Arshad Rahman "Bayesian Quantile Regression for Ordinal Models," Bayesian Analysis, Bayesian Anal. 11(1), 1-24, (March 2016)
+}
+\seealso{
+Other qordstan: 
+\code{\link{predict.qordstan}()},
+\code{\link{print.summary.qordstan}()},
+\code{\link{summary.qordstan}()}
+}
+\author{
+Pedro Araujo
+}
+\concept{qordstan}

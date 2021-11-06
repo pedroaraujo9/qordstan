@@ -28,6 +28,11 @@ qordstan object
 Creates qordstan object
 }
 \examples{
-#new_qordstan = function(stan_fit, x, y, q, beta_scale, delta_scale)
+#new_qordstan = function(stan_fit, formula, x, y, q, beta_scale, delta_scale)
 
+
+
+}
+\author{
+Pedro Araújo
 }

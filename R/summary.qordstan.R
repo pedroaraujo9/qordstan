@@ -3,7 +3,7 @@
 #' @param x numeric vector
 #' @param cred_mass length of creditive interval. Must be between 0 and 1
 #' @import HDInterval
-#' @return numeric vector with mean, standard deviation and hpd
+#' @return numeric vector with mean, standard deviation and HDI
 #'
 posterior_resume = function(x, cred_mass = 0.95) {
   hdi = HDInterval::hdi(x, cred_mass) %>% as.numeric()
@@ -13,21 +13,31 @@ posterior_resume = function(x, cred_mass = 0.95) {
 #' Summary method for qordstan objects
 #'
 #' Summary method to qordstan models containing posterior mean, standard deviation
-#' and lower and upper bond of the high density credible interval
+#' and lower and upper bond of the high density credible interval and other useful quantities
 #'
 #'
 #' @aliases summary.qordstan
 #' @param object a qorstan object
 #' @param cred_mass length of credibility interval, must be between 0 and 1
-#' @param ... aditional arguments
-#'
+#' @param ... additional arguments
+#' @family qordstan
 #' @examples
 #' #data = gen_data_example()
 #' #fit = qord_fit(y ~ ., q = 0.5, data = data$example_df, iter = 10, warmup = 5)
 #' #summary(fit)
 #'
 #' @method summary qordstan
+#' @author Pedro Araujo
 #' @export
+#' @return summary.qordstan object with components:\tabular{ll}{
+#'    \code{summary_table} \tab matrix with posterior posterior mean, standard deviation and HDI \cr
+#'    \tab \cr
+#'    \code{beta_mean} \tab posterior mean of model coefficients \cr
+#'    \tab \cr
+#'    \code{waic} \tab loo waic object  \cr
+#'    \code{n} \tab number of observations \cr
+#'    \code{k} \tab number of categories \cr
+#' }
 #'
 summary.qordstan = function(object, cred_mass = 0.95, ...) {
   #check cred_mass
