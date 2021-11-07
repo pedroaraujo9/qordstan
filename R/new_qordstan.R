@@ -47,11 +47,7 @@ new_qordstan = function(stan_fit, formula, x, y, q, beta_scale, delta_scale) {
   #number of classes
   k = length(unique(y))
   #params posterior sample
-  posterior_sample = stan_fit %>%
-    rstan::extract(pars = c(colnames(x), "gamma"), permuted=TRUE) %>%
-    do.call(cbind, .)
-
-  colnames(posterior_sample) = c(colnames(x),  paste0("gamma[", 1:(k-2), "]"))
+  posterior_sample = stan_fit %>% rstan::extract()
 
   #posterior log_lik
   posterior_log_lik = loo::extract_log_lik(stanfit = stan_fit)

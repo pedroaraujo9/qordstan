@@ -1,15 +1,3 @@
-#' Return vector with average, standard deviation and HDI
-#'
-#' @param x numeric vector
-#' @param cred_mass length of creditive interval. Must be between 0 and 1
-#' @import HDInterval
-#' @return numeric vector with mean, standard deviation and HDI
-#'
-posterior_resume = function(x, cred_mass = 0.95) {
-  hdi = HDInterval::hdi(x, cred_mass) %>% as.numeric()
-  c("mean" = mean(x), "std" = sd(x),"HPD LI" = hdi[1], "HPD UI" = hdi[2])
-}
-
 #' Summary method for qordstan objects
 #'
 #' Summary method to qordstan models containing posterior mean, standard deviation
@@ -52,14 +40,14 @@ summary.qordstan = function(object, cred_mass = 0.95, ...) {
   coef_names = object$x %>% colnames()
 
   #resume for beta
-  beta_posterior = posterior_sample[, colnames(object$x)]
+  beta_posterior = posterior_sample$beta
   beta_res = apply(beta_posterior, posterior_resume, MARGIN = 2) %>% t()
-  #rownames(beta_res) = coef_names
+  rownames(beta_res) = object$x %>% colnames()
 
   #resume for gamma
-  gamma_posterior = posterior_sample[, grepl("gamma", colnames(posterior_sample))]
+  gamma_posterior = posterior_sample$gamma
   gamma_res = apply(gamma_posterior, posterior_resume, MARGIN = 2) %>% t()
-  #rownames(gamma_res) = paste0("gamma[", 1:nrow(gamma_res)) %>% paste0("]")
+  rownames(gamma_res) = paste0("gamma[", 1:nrow(gamma_res)) %>% paste0("]")
 
   #binding resumes
   res = rbind(beta_res, gamma_res)

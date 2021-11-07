@@ -5,7 +5,8 @@ test_that("Dimensions", {
   data = gen_data_example(n=300, k = k, p = p)
   new_data = gen_data_example(n=100, k=k, p = p)
 
-  fit = qord_fit(y ~ ., q = 0.5, data = data$example_df, iter = 20)
+  fit = qord_fit(y ~ ., q = 0.5, data = data$example_df, iter = 20,
+                 verbose = F, show_messages = F)
 
 
   pred_cat = predict(fit, type = 'cat')

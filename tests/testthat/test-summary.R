@@ -4,7 +4,8 @@ test_that("error inputs", {
   p = 2
 
   data = gen_data_example(n=300, k = k, p = p)
-  fit = qord_fit(y ~ ., q = 0.5, data = data$example_df, iter = 20)
+  fit = qord_fit(y ~ ., q = 0.5, data = data$example_df, iter = 20,
+                 verbose = F, show_messages = F)
 
   expect_error(summary(fit, cred_mass = 2))
   expect_error(summary(fot, cred_mass = 0))
@@ -15,7 +16,8 @@ test_that("summary dimensions", {
   p = 2
 
   data = gen_data_example(n=300, k = k, p = p)
-  fit = qord_fit(y ~ ., q = 0.5, data = data$example_df, iter = 20)
+  fit = qord_fit(y ~ ., q = 0.5, data = data$example_df, iter = 20,
+                 verbose = F, show_messages = F)
   #check if is list
   sm = summary(fit)
   sm_dim = sm$summary_table %>% dim()

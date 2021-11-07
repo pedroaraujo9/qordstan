@@ -149,8 +149,6 @@ qord_fit = function(formula,
     ...
   )
 
-  names(model_fit)[1:ncol(x)] = colnames(x)
-
   #model output
   out = new_qordstan(
     model_fit,
