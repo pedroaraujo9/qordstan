@@ -108,5 +108,3 @@ generated quantities {
   //posterior loglike
   log_lik = logvero(y, x, beta, delta, q, k);
 }
-
-
