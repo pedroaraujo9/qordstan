@@ -1,22 +1,6 @@
-#' Transform underlying latent variable in category
-#'
-#' @param z latent variable
-#' @param gamma cut points
-#'
-#' @return vector with numeric categories
-#'
-.z_to_cat = function(z, gamma) {
-  cut_breaks = c(-Inf, 0, gamma, Inf)
-  z %>%
-    cut(breaks = cut_breaks, labels = 1:(length(cut_breaks)-1)) %>%
-    as.character() %>%
-    as.numeric()
-}
-
-
 #' Get posterior predictive sample from the model
 #'
-#' Generate sample from posterior predictive distribution.
+#' Generate sample from model posterior predictive distribution.
 #'
 #'
 #' @aliases predict.qordstan
@@ -32,8 +16,11 @@
 #' #predict(fit)
 #'
 #' @method predict qordstan
+#' @author Pedro Araujo
 #' @export
-#'
+#' @return matrix where rows are the sample of the prediction and column the sample of individuals.
+#' @family qordstan
+
 
 predict.qordstan = function(object, type = "cat", new_data = NULL, ...) {
   #check type of prediction
@@ -50,10 +37,11 @@ predict.qordstan = function(object, type = "cat", new_data = NULL, ...) {
     new_data = model.matrix(object$formula, data = new_data)[, -1]
   }
 
+  posterior_sample = object$posterior_sample
   #coefficients posterior sample
-  beta = object$posterior_sample$beta
+  beta = posterior_sample$beta
   #cutpoints posterior sample
-  gamma = object$posterior_sample$gamma
+  gamma = posterior_sample$gamma
   #quantile
   q = object$q
 

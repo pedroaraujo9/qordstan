@@ -11,11 +11,22 @@
 
 \item{cred_mass}{length of credibility interval, must be between 0 and 1}
 
-\item{...}{aditional arguments}
+\item{...}{additional arguments}
+}
+\value{
+summary.qordstan object with components:\tabular{ll}{
+\code{summary_table} \tab matrix with posterior posterior mean, standard deviation and HDI \cr
+\tab \cr
+\code{beta_mean} \tab posterior mean of model coefficients \cr
+\tab \cr
+\code{waic} \tab loo waic object  \cr
+\code{n} \tab number of observations \cr
+\code{k} \tab number of categories \cr
+}
 }
 \description{
 Summary method to qordstan models containing posterior mean, standard deviation
-and lower and upper bond of the high density credible interval
+and lower and upper bond of the high density credible interval and other useful quantities
 }
 \examples{
 #data = gen_data_example()
@@ -23,3 +34,13 @@ and lower and upper bond of the high density credible interval
 #summary(fit)
 
 }
+\seealso{
+Other qordstan: 
+\code{\link{predict.qordstan}()},
+\code{\link{print.summary.qordstan}()},
+\code{\link{qord_fit}()}
+}
+\author{
+Pedro Araujo
+}
+\concept{qordstan}

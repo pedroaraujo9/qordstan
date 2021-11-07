@@ -16,8 +16,11 @@ the category. If 'z' returns the underlying latent variable}
 
 \item{...}{additional parameters}
 }
+\value{
+matrix where rows are the sample of the prediction and column the sample of individuals.
+}
 \description{
-Generate sample from posterior predictive distribution.
+Generate sample from model posterior predictive distribution.
 }
 \examples{
 #data = gen_data_example()
@@ -25,3 +28,13 @@ Generate sample from posterior predictive distribution.
 #predict(fit)
 
 }
+\seealso{
+Other qordstan: 
+\code{\link{print.summary.qordstan}()},
+\code{\link{qord_fit}()},
+\code{\link{summary.qordstan}()}
+}
+\author{
+Pedro Araujo
+}
+\concept{qordstan}

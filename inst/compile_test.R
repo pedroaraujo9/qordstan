@@ -9,6 +9,7 @@ devtools::use_testthat()
 usethis::use_test("print.summary.qordstan")
 usethis::use_test("new_qordstan")
 usethis::use_test("predict.qordstan")
+usethis::use_test("utils")
 
 
 usethis::use_github_actions()
@@ -28,35 +29,38 @@ library(qordstan)
 library(rstan)
 library(covr)
 library(bqror)
+library(bridgesampling)
 
 
 devtools::load_all()
 
-data$gamma
-data$y %>% table() %>% prop.table()
-
-
 data = gen_data_example(n=3000, k = 5, seed = 1, p = 6, q = 0.5)
 
-all.equal(x, as.integer(x)) == T
 
-data$example_df %>% names()
+fit = qord_fit(y ~ ., q = 0.5, delta_scale = 2,
+               data = data$example_df, iter = 500)
 
-formula = y ~ X1 + X2 + X3 + X1*X2
+bridge_sampler(stanfit_model = fit$stan_fit, samples = fit$posterior_sampl)
 
-data$example_df %>% head()
-colnames(data$example_df) = c("aa", "bb", "cc", "dd", "ee", "ff", "my_response")
+fit$posterior_sample$lp__ %>% plot()
+fit$
+fit$posterior_sample %>% head()
 
-data$example_df %>% head()
+sm = summary(fit)
+sm
+sm$beta_mean
+data$b
+sm$gamma_mean
+fit
 
-all.vars(y ~ .)
+fit$posterior_sample %>% head()
 
-all.va
 
-fit = qord_fit(y ~ X1 + X2, q = 0.1, delta_scale = 2,
-               data = data$example_df, iter = 1000)
+pred = predict(fit, type='z')
 
-predict(fit, type='cat') %>% dim()
+pred %>% apply(MARGIN = 2, FUN = function(x){
+  table(x) %>% which.max()
+}) %>% table()
 
 object = fit
 new_data = object$x
@@ -67,6 +71,12 @@ gamma = object$posterior_sample$gamma
 #quantile
 q = object$q
 
+library(bayesplot)
+
+fit$posterior_sample$beta
+
+mcmc_areas(fit$posterior_sample, pars = c("X1", "X2"),
+           prob = 0.95)
 
 
 

@@ -1,4 +1,6 @@
-#' Fit the ordinal quantile regression model using Stan
+#' Fit bayesian ordinal quantile model
+#'
+#' fit a bayesian ordinal quantile model using NUTS algorithm through Stan. This function return an \code{qordstan} object with the model \code{stanfit} object and other posterior informations.
 #'
 #'
 #' @param formula model formula
@@ -10,9 +12,29 @@
 #' @param warmup length of warmup samples
 #' @param thin period of the chain to retain
 #' @param chains number of mcmc chains
+#' @param verbose boolean (default is TRUE) indicating whether to print rstan progress bar or not
 #' @param ... additional rstan parameters (see more in ?rstan::sampling)
+#' @details this function fit the model described in the paper \emph{Mohammad Arshad Rahman "Bayesian Quantile Regression for Ordinal Models," Bayesian Analysis, Bayesian Anal. 11(1), 1-24, (March 2016)} using \code{rstan}.
+#' @family qordstan
 #'
-#' @return qordstan object
+#' @author Pedro Araujo
+#'
+#' @references Mohammad Arshad Rahman "Bayesian Quantile Regression for Ordinal Models," Bayesian Analysis, Bayesian Anal. 11(1), 1-24, (March 2016)
+#'
+#' @return a qordstan object with components:\tabular{ll}{
+#'    \code{stan_fit} \tab \code{stanfit} object with the fitted model \cr
+#'    \tab \cr
+#'    \code{posterior_sample} \tab mixed posterior sample \cr
+#'    \tab \cr
+#'    \code{posterior_log_lik} \tab posterior log likelihood \cr
+#'    \code{x} \tab matrix with model covariates \cr
+#'    \code{y} \tab numeric vector with model response \cr
+#'    \code{q} \tab model quantile \cr
+#'    \code{beta_scale} \tab prior beta scale \cr
+#'    \code{gamma_scale} \tab prior gamma scale \cr
+#'    \code{waic} \tab \code{loo} object with WAIC \cr
+#' }
+#'
 #' @export
 #' @importFrom rlang is_formula
 #' @import magrittr assertthat
@@ -28,6 +50,7 @@ qord_fit = function(formula,
                     warmup = floor(iter/2),
                     thin = 1,
                     chains = 1,
+                    verbose = T,
                     ...) {
 
   #check formula
@@ -122,7 +145,7 @@ qord_fit = function(formula,
   model_fit = rstan::sampling(
     stanmodels$model, data = stan_data_list,
     pars = c("beta", "gamma", "log_lik"), iter = iter,
-    warmup = warmup, thin = thin, chains = chains,
+    warmup = warmup, thin = thin, chains = chains, open_progress = verbose,
     ...
   )
 

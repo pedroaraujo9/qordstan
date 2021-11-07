@@ -9,5 +9,5 @@
 #' #fit = qord_fit(y ~ ., q = 0.5, data = data$example_df, iter = 10, warmup = 5)
 #' #fit
 print.qordstan = function(x, ...) {
-  cat('qordstan fit')
+  print.summary.qordstan(summary(x), ...)
 }
