@@ -7,7 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "pedromenezes98@gmail.com",
            comment = c(ORCID = "0000-0002-9840-813X"))
-Description: Fit a bayesian .
+Description: This package implements the Bayesian quantile quantile ordinal model using Stan.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -39,6 +39,7 @@ Suggests:
     knitr,
     covr,
     testthat (>= 3.0.0),
-    rmarkdown
+    rmarkdown,
+    qpdf
 Config/testthat/edition: 3
 VignetteBuilder: knitr
