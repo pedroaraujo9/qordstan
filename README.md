@@ -1,6 +1,6 @@
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/pedroaraujo9/qordstan/workflows/R-CMD-check/badge.svg)](https://github.com/pedroaraujo9/qordstan/actions)
-[![Codecov test coverage](https://codecov.io/gh/pedroaraujo9/qordstan/branch/dev/graph/badge.svg)](https://codecov.io/gh/pedroaraujo9/qordstan?branch=dev)
+[![Codecov test coverage](https://codecov.io/gh/pedroaraujo9/qordstan/branch/dev/graph/badge.svg)](https://codecov.io/gh/pedroaraujo9/qordstan?branch=main)
 <!-- badges: end -->
 # qordstan
 Bayesian Quantile Regression for Ordinal Models with Stan
