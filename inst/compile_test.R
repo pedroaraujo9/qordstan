@@ -10,6 +10,7 @@ usethis::use_test("print.summary.qordstan")
 usethis::use_test("new_qordstan")
 usethis::use_test("predict.qordstan")
 usethis::use_test("utils")
+usethis::use_vignette("Example")
 
 
 usethis::use_github_actions()
