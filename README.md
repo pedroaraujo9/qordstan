@@ -10,7 +10,7 @@ This package implements the Bayesian quantile ordinal model described in [(Rahma
 
 ### Installing the package:
 
-```{r eval = F}
+```r
 devtools::install_github("pedroaraujo9/qordstan", ref = 'main')
 ```
 
@@ -19,14 +19,14 @@ devtools::install_github("pedroaraujo9/qordstan", ref = 'main')
 The `gen_data_example` function returns a list with a `data.frame` containing the simulated data and the true model parameters values. 
 
 Example Generating data with 1000 observations, 5 categories, 0.3 quantile and 4 covariates: 
-```{r}
+```r
 example_data = gen_data_example(n = 1000, k = 5, q = 0.3, p = 4)
 ```
 ### Fiting the model 
 
 The model can be fitted with the function `qord_fit`:
 
-```{r}
+```r
 model_fit = qord_fit(y ~ X1 + X2 + X3 + X4, q = 0.3, 
                      data = example_data$example_df, 
                      iter = 1000, verbose = F)
@@ -37,13 +37,13 @@ The function returns a `qordstan` object. We can access the original `stanfit` o
 
 Summarizing the results:
 
-```{r}
+```r
 summary(model_fit)
 ```
 
 The beta and gamma true values are in the example_data object:
 
-```{r}
+```r
 example_data[c("b", 'gamma')]
 ```
 
@@ -51,7 +51,7 @@ example_data[c("b", 'gamma')]
 
 We can also get a posterior predictive sample from the model and choose between the latent variable z_i or the observed response y_i:
 
-```{r}
+```r
 #sampling y_i
 pred = predict(model_fit)
 #bar plot for of the posterior predictive sample of the first observation
