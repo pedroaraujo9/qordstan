@@ -7,37 +7,22 @@
 
 This package implements the Bayesian quantile ordinal model described in [(Rahman, 2016)](https://projecteuclid.org/journals/bayesian-analysis/volume-11/issue-1/Bayesian-Quantile-Regression-for-Ordinal-Models/10.1214/15-BA939.full) using `rstan`.
 
-## The model
-In resume, defining $\boldsymbol{\beta}_p$ as a $k\times 1$ vector with unknown coefficients at the $p$ quantile and $\mathbf{x}_i$ as a $k\times 1$ vector with fixed covariates of individual $i$, the ordinal quantile model can be expressed in terms of a latent variable $z_i$, where:
 
-$$z_i = \mathbf{x}_i'\boldsymbol{\beta}_p + \epsilon_i.$$
-
-The residual $\epsilon_i$ follows the asymmetric Laplace distribution $\text{AL}(0, 1, p)$ with p.d.f:
-
-
-\[f_p(\epsilon_i)= p(1-p)\begin{cases} 
-      \exp\{-\epsilon_i(p-1)\} & \epsilon < 0 \\
-      \exp\{-\epsilon_i p\} & \epsilon \geq 0
-      \end{cases}
-\]
-
-
-The observed ordinal response $y_i$ are related with $z_i$ through a vector of cut-points $\boldsymbol{\gamma}_p$, which $\gamma_{p, j-1}<z_i \leq \gamma_{p,j}$, implies in $y_i = j$, for $j=1,\dots, J$, setting $\gamma_{p,0}=-\infty$, $\gamma_{p,J}=\infty$ and $\gamma_{p,1}=0$.
-
-
-## Fitting the model
-
-Installing the package:
+### Installing the package:
 
 ```{r eval = F}
 devtools::install_github("pedroaraujo9/qordstan", ref = 'main')
 ```
 
-The `gen_data_example` function returns a list with a `data.frame` containing the simulated data and the true model parameters values. Generating data with 1000 observations, $5$ categories, $0.3$ quantile and $4$ covariates: 
+### Simulating data
 
+The `gen_data_example` function returns a list with a `data.frame` containing the simulated data and the true model parameters values. 
+
+Example Generating data with 1000 observations, 5 categories, 0.3 quantile and 4 covariates: 
 ```{r}
 example_data = gen_data_example(n = 1000, k = 5, q = 0.3, p = 4)
 ```
+### Fiting the model 
 
 The model can be fitted with the function `qord_fit`:
 
@@ -47,23 +32,24 @@ model_fit = qord_fit(y ~ X1 + X2 + X3 + X4, q = 0.3,
                      iter = 1000, verbose = F)
 ```
 
-The function returns a `qordstan`object. We can access the original `stanfit` object, WAIC, posterior samples, etc.
+The function returns a `qordstan` object. We can access the original `stanfit` object, WAIC, posterior samples, etc.
 
 
-We can summary the results with:
+Summarizing the results:
 
 ```{r}
-sm = summary(model_fit)
-sm
+summary(model_fit)
 ```
 
-The $\boldsymbol{\beta}_p$ and $\boldsymbol{\gamma}_p$ true values are in example_data object:
+The beta and gamma true values are in the example_data object:
 
 ```{r}
 example_data[c("b", 'gamma')]
 ```
 
-We can also get a posterior predictive sample from the model and choose between the latent variable $z_i$ or the observed response $y_i$:
+### Predicting
+
+We can also get a posterior predictive sample from the model and choose between the latent variable z_i or the observed response y_i:
 
 ```{r}
 #sampling y_i
@@ -72,8 +58,9 @@ pred = predict(model_fit)
 pred[,1] %>% table() %>% barplot()
 ```
 
-### References
+## References
+- Mohammad Arshad Rahman "Bayesian Quantile Regression for Ordinal Models," Bayesian Analysis, Bayesian Anal. 11(1), 1-24, (March 2016).
 
-Mohammad Arshad Rahman "Bayesian Quantile Regression for Ordinal Models," Bayesian Analysis, Bayesian Anal. 11(1), 1-24, (March 2016)  
+- Stan Development Team (2020). “RStan: the R interface to Stan.” R package version 2.21.2, http://mc-stan.org/.
 
 
